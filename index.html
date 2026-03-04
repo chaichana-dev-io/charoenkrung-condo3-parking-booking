@@ -8,37 +8,20 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* 🎨 ปรับปรุงสีและระยะขอบใหม่ทั้งหมด */
     :root { --primary-color: #0d6efd; --bg-color: #f0f4f8; --text-color: #2c3e50; }
-    body { font-family: 'Sarabun', sans-serif; background-color: var(--bg-color); color: var(--text-color); padding-top: 110px; /* เพิ่มระยะหลบ Navbar */ }
-    
-    /* 📦 Navbar & Logo (จุดสำคัญที่แก้) */
+    body { font-family: 'Sarabun', sans-serif; background-color: var(--bg-color); color: var(--text-color); padding-top: 110px; }
     .navbar { background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.08); border-bottom: 1px solid #eee; }
     .navbar-brand { font-size: 1.4rem; color: var(--primary-color) !important; padding: 5px 0; }
-    .logo-img { height: 65px; /* 👈 ขยายโลโก้ใหญ่ขึ้นบึ้มๆ */ margin-right: 15px; width: auto; transition: all 0.3s ease; }
-
-    /* 📦 Card Design */
+    .logo-img { height: 65px; margin-right: 15px; width: auto; transition: all 0.3s ease; }
     .content-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); margin-bottom: 25px; border: none; transition: transform 0.2s ease; }
     .content-card:hover { transform: translateY(-3px); }
-    
-    /* 📦 ข้อมูลคิว */
     .badge-queue { font-size: 1.2rem; padding: 12px; width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; box-shadow: 0 2px 5px rgba(13,110,253,0.3); }
-    
-    /* 📦 Form Elements */
     .form-label { font-weight: 600; font-size: 0.9rem; color: #555; }
     .form-control, .form-select { padding: 12px 15px; border-radius: 10px; border: 1px solid #dde2e6; font-size: 1rem; }
     .form-control:focus { border-color: #80bdff; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.15); }
     .btn-submit { padding: 14px; font-size: 1.1rem; border-radius: 10px; transition: all 0.2s ease; }
     .btn-submit:hover { background-color: #0b5ed7; transform: scale(1.02); }
-
-    /* 📱 Responsive Mobile */
-    @media (max-width: 768px) {
-      body { padding-top: 100px; }
-      .navbar-brand { font-size: 1.1rem; }
-      .logo-img { height: 50px; /* 👈 ลดขนาดโลโก้ลงนิดนึงเวลายุบนมือถือ */ margin-right: 10px; }
-      .content-card { padding: 20px; }
-      .badge-queue { width: 40px; height: 40px; font-size: 1rem; }
-    }
+    @media (max-width: 768px) { body { padding-top: 100px; } .navbar-brand { font-size: 1.1rem; } .logo-img { height: 50px; margin-right: 10px; } .content-card { padding: 20px; } .badge-queue { width: 40px; height: 40px; font-size: 1rem; } }
   </style>
 </head>
 <body>
@@ -54,7 +37,6 @@
 
   <div class="container">
     <div class="row g-4">
-      
       <div class="col-lg-5 col-md-12">
         <div class="content-card" style="border-top: 6px solid #0d6efd;">
           <h5 class="mb-4 text-dark fw-bold"><i class="bi bi-pencil-square me-2 text-primary"></i>ลงทะเบียนจองคิวใหม่</h5>
@@ -93,7 +75,6 @@
             <h5 class="text-dark fw-bold mb-0"><i class="bi bi-list-ol me-2 text-primary"></i>ลำดับคิวปัจจุบัน</h5>
             <button onclick="loadPublicQueue()" class="btn btn-outline-secondary btn-sm" title="รีเฟรชข้อมูล"><i class="bi bi-arrow-clockwise"></i></button>
           </div>
-          
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead class="table-light text-secondary">
@@ -111,7 +92,6 @@
           <p class="text-center text-muted small mt-3">* ข้อมูลจะอัปเดตอัตโนมัติทุก 30 วินาที</p>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -119,7 +99,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // 🔴 URL API ของคุณ (ตรวจสอบให้ตรงกับที่ Deploy ล่าสุด)
     const API_URL = "https://script.google.com/macros/s/AKfycbwXmm75vM7CNvFyuPQKBE_0Bdc1uDzh13Anp2CnQcwxEdhGmKiBHA-YhXLP8a0GV42mUQ/exec"; 
 
     function gasRequest(action, payload, onSuccess) {
@@ -133,7 +112,10 @@
             if (res.status === "success") { if(onSuccess) onSuccess(res.data); } 
             else { Swal.fire('Error', res.message, 'error'); }
         })
-        .catch(err => Swal.fire('Network Error', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', 'error'));
+        .catch(err => {
+            console.error(err);
+            Swal.fire('Network Error', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', 'error');
+        });
     }
 
     $(document).ready(function() {
@@ -142,16 +124,18 @@
     });
 
     function loadPublicQueue() {
-        gasRequest('getPublicQueueList', {}, function(data) {
+        // ✅ เปลี่ยน Action ให้ตรงกับ Backend (.gs)
+        gasRequest('getBookingList', {}, function(data) {
             let html = '';
             if(!data || data.length === 0) {
                 html = '<tr><td colspan="3" class="text-center text-muted py-5">ยังไม่มีรายการคิวในขณะนี้</td></tr>';
             } else {
                 data.forEach(r => {
+                    // ชีต WaitingList: [0:Date, 1:Queue, 2:Plate, 3:Name, 4:Phone, 5:Room, 6:Type]
                     html += `<tr>
-                        <td class="text-center"><span class="badge bg-primary rounded-circle badge-queue">${r.queue}</span></td>
-                        <td class="fw-bold text-dark text-nowrap">${r.plate}</td>
-                        <td class="text-nowrap">${r.room}</td>
+                        <td class="text-center"><span class="badge bg-primary rounded-circle badge-queue">${r[1]}</span></td>
+                        <td class="fw-bold text-dark text-nowrap">${r[2]}</td>
+                        <td class="text-nowrap">${r[5]}</td>
                     </tr>`;
                 });
             }
@@ -168,23 +152,30 @@
 
         Swal.fire({ title: 'กำลังจองคิว...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        let bookingData = [plate, type, name, phone, room];
+        // ✅ ปรับรูปแบบข้อมูลส่งเป็น Object { } ให้ตรงกับ Backend
+        let bookingData = {
+            plate: plate,
+            type: type,
+            name: name,
+            phone: phone,
+            room: room
+        };
         
         gasRequest('saveBooking', { bookingData: bookingData }, function(res) {
-            if(res.status === "Duplicate") {
-                Swal.fire('คิวซ้ำ!', `ทะเบียน ${plate} มีในระบบแล้ว (คิวที่ ${res.queueNumber})`, 'warning');
+            // Backend .gs คืนค่าเป็น String "Success" หรือ "Error:..."
+            if(res && res.indexOf("Error") > -1) {
+                Swal.fire('จองไม่สำเร็จ', res.split(":")[1] || "โควตาเต็มหรือไม่สามารถบันทึกได้", 'error');
             } 
-            else if(res.status === "QuotaFull") {
-                Swal.fire('โควตาเต็ม!', `ห้อง ${res.room} มีรถยนต์จองครบสิทธิ์แล้ว`, 'error');
-            } 
-            else if(res.status === "Success") {
+            else if(res === "Success") {
                 Swal.fire({
                     icon: 'success',
                     title: 'จองคิวสำเร็จ!',
-                    html: `คุณได้คิวที่ <b style="font-size:1.8rem; color:#0d6efd;">${res.queueNumber}</b><br>กรุณารอเจ้าหน้าที่ติดต่อกลับ`
+                    text: 'กรุณารอเจ้าหน้าที่ตรวจสอบและติดต่อกลับ'
                 });
                 $('#bookingForm')[0].reset(); 
                 loadPublicQueue(); 
+            } else {
+                Swal.fire('แจ้งเตือน', 'เกิดข้อผิดพลาดที่ไม่รู้จัก', 'warning');
             }
         });
     }
